@@ -12,35 +12,22 @@ const Navbar = () => {
                 textAlign: 'center'
             }}
         >
-            <NavLink
-                to="/"
-                style={({ isActive }) => ({
+            <NavLink to="/movies/popular" style={({ isActive }) => ({
                     color: isActive ? 'green' : 'black',
                     textDecoration: 'none'
-                })}
-            >
-                홈 페이지로 이동
-            </NavLink>
-
-            <NavLink
-                to="/movies/popular"
-                style={({ isActive }) => ({
+                })}>인기 영화</NavLink>
+<NavLink to="/movies/upcoming" style={({ isActive }) => ({
                     color: isActive ? 'green' : 'black',
                     textDecoration: 'none'
-                })}
-            >
-                인기 영화 목록 페이지로 이동
-            </NavLink>
-
-            <NavLink
-                to="/movies/upcoming"
-                style={({ isActive }) => ({
+                })}> 예정된 영화</NavLink>
+<NavLink to="/movies/top_rated" style={({ isActive }) => ({
                     color: isActive ? 'green' : 'black',
                     textDecoration: 'none'
-                })}
-            >
-                예정된 영화 목록 페이지로 이동
-            </NavLink>
+                })}>Top Rated</NavLink>
+<NavLink to="/movies/now_playing" style={({ isActive }) => ({
+                    color: isActive ? 'green' : 'black',
+                    textDecoration: 'none'
+                })}> Now Playing</NavLink>
         </nav>
     );
 };
