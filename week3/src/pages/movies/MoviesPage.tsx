@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { Movie, MovieResponse } from '../../types/movie';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 const MoviesPage = () => {
-  const { category } = useParams(); // 이 값으로 API 호출에 사용
+    const { category } = useParams<{ category: string }>();
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
@@ -88,7 +90,7 @@ const MoviesPage = () => {
         }}
       >
         {movies.map((movie) => (
-          <li
+            <li
             key={movie.id}
             style={{
               width: '16.66%',
@@ -101,42 +103,45 @@ const MoviesPage = () => {
             onMouseEnter={() => setHoveredId(movie.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
-            <div style={{ position: 'relative', width: '100%' }}>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                style={{
-                  width: '100%',
-                  filter: hoveredId === movie.id ? 'blur(4px)' : 'none',
-                  transition: 'filter 0.3s ease',
-                }}
-              />
-              {hoveredId === movie.id && (
-                <div
+            <Link to={`/movies/${category}/${movie.id}`} style={{ width: '100%', display: 'block' }}>
+              <div style={{ position: 'relative', width: '100%' }}>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
                   style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
                     width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    color: 'white',
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    borderRadius: '6px',
-                    padding: '10px',
-                    textAlign: 'center',
-                    overflow: 'auto',
+                    filter: hoveredId === movie.id ? 'blur(4px)' : 'none',
+                    transition: 'filter 0.3s ease',
                   }}
-                >
-                  <h1 style={{ fontSize: '16px', marginBottom: '10px' }}>{movie.title}</h1>
-                  <p style={{ fontSize: '12px' }}>{movie.overview}</p>
-                </div>
-              )}
-            </div>
+                />
+                {hoveredId === movie.id && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      color: 'white',
+                      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                      borderRadius: '6px',
+                      padding: '10px',
+                      textAlign: 'center',
+                      overflow: 'auto',
+                    }}
+                  >
+                    <h1 style={{ fontSize: '16px', marginBottom: '10px' }}>{movie.title}</h1>
+                    <p style={{ fontSize: '12px' }}>{movie.overview}</p>
+                  </div>
+                )}
+              </div>
+            </Link>
           </li>
+          
         ))}
       </ul>
     </div>
