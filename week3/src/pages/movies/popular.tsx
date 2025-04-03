@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Movie, MovieResponse } from '../types/movie';
+import { Movie, MovieResponse } from '../../types/movie';
 import axios from 'axios';
 
 const MoviesPage = () => {
@@ -12,7 +12,7 @@ const MoviesPage = () => {
         `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1`,
         {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9...`, // 생략 가능
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNjI0YjZjOWU4NDllYjBmYTJkOTAwMDJiYWY0YzZkNCIsIm5iZiI6MTc0MzYwMzg4NS4yMjgsInN1YiI6IjY3ZWQ0OGFkNGVkNWI1MjcyMWNlNThlMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b-SXEMnqLIOjNQwhnNty9cCHZCMWtqtjAV8tCJ8IXB0`, // 생략 가능
           },
         }
       );
@@ -32,6 +32,8 @@ const MoviesPage = () => {
         margin: 0,
       }}
     >
+              <h1>popular!</h1>
+
       {movies?.map((movie) => (
         <li
           key={movie.id}
@@ -58,23 +60,34 @@ const MoviesPage = () => {
               }}
             />
             {hoveredId === movie.id && (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  color: 'white',
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                  padding: '10px 15px',
-                  borderRadius: '6px',
-                  fontSize: '13px',
-                  textAlign: 'center',
-                }}
-              >
-                {movie.title}
-              </div>
-            )}
+  <div
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'white',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      borderRadius: '6px',
+      padding: '10px',
+      textAlign: 'center',
+      overflow: 'auto',
+    }}
+  >
+    <h1 style={{ fontSize: '16px', marginBottom: '10px' }}>
+      {movie.title}
+    </h1>
+    <p style={{ fontSize: '12px' }}>
+      {movie.overview}
+    </p>
+  </div>
+)}
+
           </div>
         </li>
       ))}

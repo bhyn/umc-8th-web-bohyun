@@ -5,7 +5,9 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 // 1. 만든 페이지들을 import
 import HomePage from "./pages/home";
 import NotFound from "./pages/not-found";
-import Movies from "./pages/movies";
+import Moviespopular from "./pages/movies/popular";
+import Moviesupcoming from "./pages/movies/upcoming";
+
 import RootLayout from "./layout/root-layout"
 // 2. 연결
 const router = createBrowserRouter([
@@ -21,13 +23,16 @@ const router = createBrowserRouter([
             },
             {
                 // /:을 활용해서, 동적으로 바뀌는 부분의 이름을 정의해줍시다.
-                path: 'movies/:movieId',
-                element: <Movies/>
+                path: 'movies/popular',
+                element: <Moviespopular/>
             },
+            
             {
-                path: 'movies',
-                element: <Movies/>
-            }
+                // /:을 활용해서, 동적으로 바뀌는 부분의 이름을 정의해줍시다.
+                path: 'movies/upcoming',
+                element: <Moviesupcoming/>
+            },
+            
         ]
     }
 ])
