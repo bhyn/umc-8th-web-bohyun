@@ -1,37 +1,14 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import useCustomHook from '../../hooks/useCustomHook';
 import { Movie, MovieResponse } from '../../types/movie';
 
 const MoviesPage = () => {
   const { category } = useParams<{ category: string }>();
-  const [movies, setMovies] = useState<Movie[]>([]);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      setIsLoading(true);
-      try {
-        const { data } = await axios.get<MovieResponse>(
-          `https://api.themoviedb.org/3/movie/${category}?language=ko-KR&page=${page}`,
-          {
-            headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzN2QwYjMwYzQzM2U2NWQ1MjI0NjQ1ZTRmM2JlM2JmYiIsIm5iZiI6MTc0MzYwMzg4NS4yMjgsInN1YiI6IjY3ZWQ0OGFkNGVkNWI1MjcyMWNlNThlMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.280RXuoHC3s6dfrIhFoOHCzjXLzX8AKCierpR2QJ1gw`,
-            },
-          }
-        );
-        setMovies(data.results);
-      } catch (error) {
-        console.error('Error fetching movies:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMovies();
-  }, [category, page]);
+  const { movies, isLoading }  = useCustomHook({category,page});
 
   const handlePrev = () => setPage((prev) => Math.max(prev - 1, 1));
   const handleNext = () => setPage((prev) => prev + 1);
