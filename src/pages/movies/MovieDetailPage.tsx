@@ -5,14 +5,15 @@ import { Movie } from '../../types/movie';
 
 const MovieDetailPage = () => {
   const { id } = useParams<{ id: string }>();
+  //useParams는 	URL의 경로 파라미터를 객체로 반환하는 함수
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovie = async () => {
-      setIsLoading(true);
+      setIsLoading(true); //setIsLoading을 true로 설정
       try {
-        const { data } = await axios.get<Movie>(
+        const { data } = await axios.get<Movie>( //(url, options)형식 //"받아올 정보는 Movie 타입일 것이다”라고 명시해줌 
           `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`,
           {
             headers: {
@@ -20,26 +21,30 @@ const MovieDetailPage = () => {
             },
           }
         );
-        setMovie(data);
-      } catch (error) {
+        setMovie(data); //movie의 상태를 data로 설정하기
+      } catch (error) { //try를 실행하다가 오류가 나면 바로 catch로 넘어감감
         console.error('Error fetching movies:', error);
-      } finally {
-        setIsLoading(false);
+      } finally { //성공하든 실패하든, 마지막으로 실행됨
+        setIsLoading(false); //이것때문에 if (isLoading || !movie)이 실행됨
       }
     };
 
     if (id) {
-      fetchMovie();
+      fetchMovie(); 
+      //id가 있을 때만 위에서 정의한 fetchMovie를 호출
     }
-  }, [id]);
+  }, [id]); //id값이 변경될 때마다(사용자가 영화 상세 페이지를 이동하면면) useEffect가 실행됨(영화 정보를 가져옴)
 
-  if (!movie) {
+
+  if (isLoading || !movie) {
     return (
       <div className="text-center p-10 text-gray-600 text-lg">
         🎬 영화 정보를 불러오는 중입니다...
       </div>
     );
   }
+
+
 
   return (
     <div className="p-6 flex flex-col items-center max-w-4xl mx-auto">

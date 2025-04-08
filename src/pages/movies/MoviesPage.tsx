@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Movie, MovieResponse } from '../../types/movie';
-import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Movie, MovieResponse } from '../../types/movie';
 
 const MoviesPage = () => {
   const { category } = useParams<{ category: string }>();
