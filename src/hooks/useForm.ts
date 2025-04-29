@@ -45,3 +45,5 @@ function useForm<T>({ initialValue, validate }: UseFormProps<T>) {
 
   return { values, errors, touched, getInputProps };
 }
+
+export default useForm; 
