@@ -11,7 +11,7 @@ import SignupPage from "./pages/SignupPage";
 // 2. 로그인 페이지
 // 3. 회원가입 페이지
 
-const router = createBrowserRouter([
+const publicRoutes:RouteObject[] = [
   {
     path: "/",
     element: <HomeLayout />,
@@ -21,11 +21,29 @@ const router = createBrowserRouter([
       {path:'login',element:<LoginPage />},
       {path:'signup',element:<SignupPage />},
     ]
-  } 
-]);
+  }
+];
+
+const protectedRoutes:RouteObject[] = [
+  {
+    path: "/",
+    children:[
+      {
+        path: "/my",
+        element:<MyPage />,
+      
+      }
+    ]
+  }
+const router = createBrowserRouter(...publicRoutes);
 
 function App() {
-  return <RouterProvider router={router} />;
+
+  return (
+    <AuthProvider>
+   <RouterProvider router={router} />
+    </AuthProvider>
+  );  
 }
 
 export default App;
