@@ -1,7 +1,6 @@
 import { createContext, PropsWithChildren, useContext } from "react";
 import { RequestLoginDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { LocalStorageKey } from "../constants/key";
 import { postSignin, postLogout } from "../apis/auth";
 
 interface AuthContextType {

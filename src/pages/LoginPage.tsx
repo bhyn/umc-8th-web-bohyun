@@ -20,6 +20,14 @@ Object.values(errors||{}).some((error)=>error.length>0||
 Object.values(values).some((value)=>value===""))   ;
   
 
+const handelSubmit = async ()=>{
+  await login(values);
+
+}
+
+const handleGoogleLogin = async () => {
+  window.location.href = import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login"
+
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
@@ -54,6 +62,15 @@ Object.values(values).some((value)=>value===""))   ;
           className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition"
         >
           로그인
+        </button>
+
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={isDisabled}
+          className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition"
+        >
+          구글 로그인
         </button>
       </div>
     </div>

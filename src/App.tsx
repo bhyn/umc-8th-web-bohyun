@@ -20,6 +20,7 @@ const publicRoutes:RouteObject[] = [
       {index:true,element:<HomePage />},
       {path:'login',element:<LoginPage />},
       {path:'signup',element:<SignupPage />},
+      {path:"v1/auth.google/callback", element:<GoogleLoginRedirectPage/>},
     ]
   }
 ];
