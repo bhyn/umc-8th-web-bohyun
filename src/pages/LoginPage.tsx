@@ -1,8 +1,11 @@
-import { useState } from "react";
 import useForm from "../hooks/useForm.ts";
 import { UserSigninInformation, validateSignin } from "../utils/validate.ts";
+import { postSignin } from "../apis/auth.ts"; // 로그인 API 호출
+import {useLocalStorage} from "../hooks/useLocalStorage.ts";
+import { LOCAL_STORAGE_KEY } from "../constants/key.ts";
 
 const LoginPage = () => {
+  const {setItem} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken); // 로컬 스토리지에 accessToken 저장하는 훅
   const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
     initialValue: {
       email: "",
@@ -11,8 +14,18 @@ const LoginPage = () => {
     validate: validateSignin,
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+
     console.log(values);
+    try{
+      const response = await postSignin(values);
+      console.log(response);
+      setItem( response.data.accessToken);
+    }catch (error) {
+      alert(error?.message);  
+    }
+ // 로그인 API 호출
+
     // await login(values); // 여기에 로그인 API 연결 가능
   };
 

@@ -1,6 +1,9 @@
 import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {SubmitHandler} from 'react-hook-form';
+import {postSignup} from '../apis/auth'; //회원가입 api 호출
+
 
 const schema = z.object({
   email: z.string().email({message: '올바른 이메일 형식이 아닙니다.'}),
@@ -37,9 +40,11 @@ const SignupPage = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit:SubmitHandler<FormFields> = (data) => {
+  const onSubmit:SubmitHandler<FormValues> = async (data) => {
     const {passwordCheck, ...rest} = data;
-    console.log(rest); //passwordCheck 제외하고 넘기는 법 
+
+    const response = await postSignup(rest); //회원가입 api 호출
+    console.log(response); //passwordCheck 제외하고 넘기는 법 
 
     };
 
@@ -109,7 +114,7 @@ const SignupPage = () => {
           disabled={false}
           className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition"
         >
-          로그인
+          회원가입
         </button>
 
       </div>
