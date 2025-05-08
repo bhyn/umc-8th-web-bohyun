@@ -11,7 +11,7 @@ import SignupPage from "./pages/SignupPage";
 // 2. 로그인 페이지
 // 3. 회원가입 페이지
 
-const publicRoutes:RouteObject[] = [
+const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
@@ -20,31 +20,12 @@ const publicRoutes:RouteObject[] = [
       {index:true,element:<HomePage />},
       {path:'login',element:<LoginPage />},
       {path:'signup',element:<SignupPage />},
-      {path:"v1/auth.google/callback", element:<GoogleLoginRedirectPage/>},
     ]
-  }
-];
-
-const protectedRoutes:RouteObject[] = [
-  {
-    path: "/",
-    children:[
-      {
-        path: "/my",
-        element:<MyPage />,
-      
-      }
-    ]
-  }
-const router = createBrowserRouter(...publicRoutes);
+  } 
+]);
 
 function App() {
-
-  return (
-    <AuthProvider>
-   <RouterProvider router={router} />
-    </AuthProvider>
-  );  
+  return <RouterProvider router={router} />;
 }
 
 export default App;

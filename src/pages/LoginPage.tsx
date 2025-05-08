@@ -13,21 +13,17 @@ const LoginPage = () => {
 
   const handleSubmit = () => {
     console.log(values);
+    // await login(values); // 여기에 로그인 API 연결 가능
   };
 
-  const isDisabled = 
-Object.values(errors||{}).some((error)=>error.length>0||
-Object.values(values).some((value)=>value===""))   ;
-  
+  const handleGoogleLogin = async () => {
+    window.location.href =
+      import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+  };
 
-const handelSubmit = async ()=>{
-  await login(values);
-
-}
-
-const handleGoogleLogin = async () => {
-  window.location.href = import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login"
-
+  const isDisabled =
+    Object.values(errors || {}).some((error) => error.length > 0) ||
+    Object.values(values).some((value) => value === "");
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
@@ -36,7 +32,9 @@ const handleGoogleLogin = async () => {
           {...getInputProps({ name: "email" })}
           name="email"
           className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-sm ${
-            errors?.email && touched?.email ? "border-red-500 bg-red-200" : "border-gray-300"
+            errors?.email && touched?.email
+              ? "border-red-500 bg-red-200"
+              : "border-gray-300"
           }`}
           type="email"
           placeholder="이메일"
@@ -46,8 +44,11 @@ const handleGoogleLogin = async () => {
         )}
         <input
           {...getInputProps({ name: "password" })}
+          name="password"
           className={`border border-[#ccc] w-[300px] p-[10px] focus:border-[#807bff] rounded-sm ${
-            errors?.password && touched?.password ? "border-red-500 bg-red-200" : "border-gray-300"
+            errors?.password && touched?.password
+              ? "border-red-500 bg-red-200"
+              : "border-gray-300"
           }`}
           type="password"
           placeholder="비밀번호"
@@ -55,6 +56,7 @@ const handleGoogleLogin = async () => {
         {errors?.password && touched?.password && (
           <div className="text-red-500 text-sm">{errors.password}</div>
         )}
+
         <button
           type="button"
           onClick={handleSubmit}
@@ -66,17 +68,14 @@ const handleGoogleLogin = async () => {
 
         <button
           type="button"
-          onClick={handleSubmit}
-          disabled={isDisabled}
-          className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition"
+          onClick={handleGoogleLogin}
+          className="w-full bg-red-500 text-white py-3 rounded-md text-lg font-medium hover:bg-red-600 transition"
         >
           구글 로그인
         </button>
       </div>
     </div>
   );
-
-  return LoginPage;
 };
 
 export default LoginPage;

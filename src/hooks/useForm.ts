@@ -1,49 +1,75 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface UseFormProps<T> {
   initialValue: T;
-  validate: (values: T) => Record<keyof T, string>;
+  validate: (values: T) => Record<keyof T, string | null>;
 }
 
 function useForm<T>({ initialValue, validate }: UseFormProps<T>) {
-  const [values, setValues] = useState(initialValue);
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<T>(initialValue);
+  const [touched, setTouched] = useState<Record<keyof T, boolean>>(
+    {} as Record<keyof T, boolean>,
+  );
+  const [errors, setErrors] = useState<Record<keyof T, string | null>>(
+    {} as Record<keyof T, string | null>,
+  );
 
-  // 사용자 입력값을 변경하는 함수
-  const handleChange = (name: keyof T, text: string) => {
-    setValues({
-      ...values, // 기존 상태 유지
-      [name]: text,
-    });
-  };
-
-  const handleBlur = (name: keyof T) => {
-    setTouched({
-      ...touched,
-      [name]: true,
-    });
-  };
-
-  // 이메일, 패스워드 입력 요소들, 속성들을 좀 가져오는 것
-  const getInputProps = (name: keyof T) => {
-    const value = values[name];
-
-    const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      handleChange(name, e.target.value);
-
-    const onBlur = () => handleBlur(name);
-
-    return { value, onChange, onBlur };
-  };
-
-  // values가 변경될 때마다 에러 검증 로직이 실행됨.
   useEffect(() => {
-    const newErrors: Record<keyof T, string> = validate(values);
-    setErrors(newErrors); // 오류 메시지 입력
-  }, [validate, values]);
+    const validationErrors = validate(values);
+    setErrors(validationErrors);
+  }, [values]);
 
-  return { values, errors, touched, getInputProps };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
+
+  const getInputProps = (name: keyof T) => ({
+    name,
+    value: values[name],
+    onChange: handleChange,
+    onBlur: handleBlur,
+    error: touched[name] ? errors[name] : null,
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Mark all fields as touched on submit
+    const allTouched = Object.keys(values as Record<keyof T, unknown>).reduce(
+      (acc, key) => {
+        acc[key as keyof T] = true;
+        return acc;
+      },
+      {} as Record<keyof T, boolean>,
+    );
+    setTouched(allTouched);
+
+    // Submit 시에 최종 유효성 검사 수행
+    const validationErrors = validate(values);
+    setErrors(validationErrors);
+
+    if (Object.values(validationErrors).some((error) => error !== null)) {
+      return;
+    }
+    console.log(values);
+  };
+
+  return {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    getInputProps,
+    setValues,
+  };
 }
 
-export default useForm; 
+export default useForm;
