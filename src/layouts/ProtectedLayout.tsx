@@ -1,15 +1,14 @@
-import {Outlet} from 'react-router-dom';
-import {useAuth} from '../context/AuthContext';
-import {Navigate} from 'react-router-dom';
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const ProtectedLayout = () => {
-  const {accessToken}=useAuth();
+    const{accessToken} = useAuth();
 
-  if (!accessToken) {
-    return <Navigate to={"/login"} replace/>;
+    if(!accessToken){
+        return <Navigate to={'/login'} replace/>
+    }
 
-  }
-  return <Outlet />;
+    return<Outlet/>
 }
 
 export default ProtectedLayout;

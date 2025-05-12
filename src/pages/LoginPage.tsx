@@ -1,40 +1,42 @@
-import useForm from "../hooks/useForm.ts";
-import { UserSigninInformation, validateSignin } from "../utils/validate.ts";
-import { postSignin } from "../apis/auth.ts"; // 로그인 API 호출
-import {useLocalStorage} from "../hooks/useLocalStorage.ts";
-import { LOCAL_STORAGE_KEY } from "../constants/key.ts";
-import { useAuth } from "../context/AuthContext.tsx"; // 로그인 API 호출
-import { useNavigate } from "react-router-dom"; // useNavigate 훅을 사용하기 위해 import
+import useForm from "../hooks/useForm";
+import { UserSigninInformation, validateSignin } from "../utils/validate";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const LoginPage = () => {
-  const {login} =  useAuth();
-  const navigate = useNavigate();
-  const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
-    initialValue: {
-      email: "",
-      password: "",
-    },
-    validate: validateSignin,
-  });
+    const {login, accessToken} = useAuth();
+    const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+    useEffect(()=>{
+        if(accessToken){
+            navigate("/")
+        }
+    }, [navigate, accessToken])
 
-      await login(values);
-      
+    const {values, errors, touched, getInputProps} = useForm<UserSigninInformation> ({
+        initialValue: {
+            email: "",
+            password: "",
+        },
+        validate: validateSignin, 
+    })
 
-  };
+    const handleSubmit = async() => {
+        await login(values);
+    }
 
-  const handleGoogleLogin = async () => {
-    window.location.href =
-      import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
-  };
+    const handleGoogleLogin = () => {
+        window.location.href=
+        import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+    }
 
-  const isDisabled =
+    const isDisabled = 
     Object.values(errors || {}).some((error) => error.length > 0) ||
     Object.values(values).some((value) => value === "");
 
-  return (
-    <div className='flex flex-col items-center justify-center h-full gap-4'>
+    return (
+        <div className='flex flex-col items-center justify-center h-full gap-4'>
             <div className='flex flex-col gap-3'>
                 <input
                 {...getInputProps("email")}
@@ -75,7 +77,7 @@ const LoginPage = () => {
                 </button>
             </div>
         </div>
-  );
-};
+    )
+}
 
 export default LoginPage;
