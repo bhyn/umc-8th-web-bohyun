@@ -1,16 +1,11 @@
-import axios from 'axios';
 import { 
   RequestSigninDto, 
   RequestSignupDto, 
   ResponseSigninDto, 
   ResponseSignupDto,
   ResponseMyInfoDto,
-
-
 } from '../types/auth.ts';
-import { axiosInstance } from './axios.ts';
-import { LOCAL_STORAGE_KEY } from '../constants/key.ts';
-import { useLocalStorage } from '../hooks/useLocalStorage.ts';
+import axiosInstance from './axios.ts';
 
 export const postSignup = async (body: RequestSignupDto):Promise<ResponseSignupDto> => {
   const{data} = await axiosInstance.post(
@@ -29,5 +24,10 @@ export const postSignin = async (body: RequestSigninDto):Promise<ResponseSigninD
 export const getMyInfo = async () : Promise<ResponseMyInfoDto>=> {
   const {data}=await axiosInstance.get('/v1/users/me');
 
+  return data;
+}
+
+export const postLogout=async()=>{
+  const{data}=await axiosInstance.post("/auth/logout");
   return data;
 }

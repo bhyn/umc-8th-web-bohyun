@@ -21,15 +21,15 @@ const schema = z.object({
   path: ['passwordCheck'],
 })
 
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<typeof schema>; //formfields??
 
 const SignupPage = () => {
 
   const {
     register,
     handleSubmit,
-    formState:{errors,isSubmitting},
-  } = useForm<typeof schema>({
+    formState:{errors,isSubmitting}
+  } = useForm<FormValues>({
     defaultValues: {
       email: "",
       password: '',
@@ -111,7 +111,6 @@ const SignupPage = () => {
           disabled={isSubmitting}
           type="button"
           onClick={handleSubmit(onSubmit)}
-          disabled={false}
           className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition"
         >
           회원가입
