@@ -5,14 +5,14 @@ import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
 import HomeLayout from "./layouts/HomeLayout";
 import SignupPage from "./pages/SignupPage";  
-import MyPage from "./pages/MyPage"; // 마이페이지 추가
+import MyPage from "./pages/MyPage"; 
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import { AuthProvider } from "./context/AuthContext";
 import { RouteObject } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
-// 1. 홈페이지
-// 2. 로그인 페이지
-// 3. 회원가입 페이지
+
 
 //public Routes : 인증 없이 접근 가능한 라우트
 const publicRoutes: RouteObject[]=[
@@ -47,11 +47,16 @@ const protectedRoutes: RouteObject[]=[
 
 const router = createBrowserRouter([...publicRoutes,...protectedRoutes]);
 
+
+export const queryClient = new QueryClient();
 function App() {
   return (
+    <QueryClientProvider client = {queryClient}>
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
+    <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
