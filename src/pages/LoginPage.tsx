@@ -8,11 +8,12 @@ const LoginPage = () => {
     const {login, accessToken} = useAuth();
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        if(accessToken){
-            navigate("/")
-        }
-    }, [navigate, accessToken])
+    useEffect(() => {
+    if (accessToken) {
+        navigate("/");
+    }
+}, [navigate, accessToken]);
+
 
     const {values, errors, touched, getInputProps} = useForm<UserSigninInformation> ({
         initialValue: {

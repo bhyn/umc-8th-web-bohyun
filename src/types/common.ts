@@ -1,27 +1,19 @@
 export type CommonResponse<T>={
-  status: boolean;
-  statusCode: number;
-  message: string;
-  data: T;
-}
+    status:boolean;
+    statusCode:number;
+    message:string;
+    data: T
+};
 
-export type CursorBasedResponse<T> = {
-  status: boolean;
-  statusCode: number;
-  message: string;
-  data: T;
-  nextCursor : number;
-  hasNExt:boolean;
-}
+export type CursorBasedResponse<T>=CommonResponse<{
+    data:T;
+    nextCursor:number | null;
+    hasNext:boolean;
+}>;
 
-enum PAGINATION_ORDER {
-  "asc" = "asc",
-  "desc" = "desc",
-}
-
-export type PaginationDto = {
-  cursor?: number;
-  limit?: number;
-  search?: string;
-  order?: PAGINATION_ORDER;
-}
+export type PaginationDto={
+    cursor?:number;
+    limit?:number;
+    search?:string;
+    order?:PAGINATION_ORDER;
+};

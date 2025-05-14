@@ -19,7 +19,9 @@ const MyPage = () => {
 
         if (accessToken) {
             getData(); 
-          }
+            console.log("로그인 후 accessToken:", accessToken);
+            
+        }
     }, [accessToken])
 
     const handleLogout = async() => {
