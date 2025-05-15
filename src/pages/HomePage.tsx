@@ -13,7 +13,7 @@ import LpCardSkeletonList from '../components/LpCard/LpCardSkeletonList';
 
 
 const HomePage = () => {
-    const [search, setSearch]= useState("뽀야");
+    const [search, setSearch]= useState("");
 
     const {data,isFetching,hasNextPage,isPending, fetchNextPage, isError} = useGetInfiniteLpList(50,search,PAGINATION_ORDER.desc)
     const lps = data

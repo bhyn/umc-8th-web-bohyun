@@ -11,6 +11,9 @@ import { AuthProvider } from "./context/AuthContext";
 import { RouteObject } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+import LpDetailPage from "./pages/LpDetailPage";
+import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage";
+
 
 
 
@@ -24,6 +27,8 @@ const publicRoutes: RouteObject[]=[
       {index:true,element:<HomePage />},
       {path:'login',element:<LoginPage />},
       {path:'signup',element:<SignupPage />},
+      {path: "v1/auth/google/callback",element:<GoogleLoginRedirectPage/>},
+      {path: 'lps/:lpId',element:<LpDetailPage/>},
     ]
   }
 ];

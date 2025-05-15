@@ -1,8 +1,9 @@
 const NotFoundPage = () => {
+    console.log('NotFoundPage');
     return (
         <div>
-            NotFound
-        </div>
+            NotFoundㅜㅠㅠㅠ
+\        </div>
     )
 }
 
