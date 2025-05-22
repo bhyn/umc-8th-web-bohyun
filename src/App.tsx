@@ -24,7 +24,7 @@ const publicRoutes: RouteObject[]=[
     element: <HomeLayout />,
     errorElement: <NotFoundPage />,
     children:[
-      {index:true,element:<HomePage />},
+        {index:true,element:<HomePage />},
       {path:'login',element:<LoginPage />},
       {path:'signup',element:<SignupPage />},
       {path: "v1/auth/google/callback",element:<GoogleLoginRedirectPage/>},
